@@ -1,2 +1,2 @@
-from independent_two_steps import *
+from .independent_two_steps import *
 

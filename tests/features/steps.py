@@ -22,13 +22,13 @@ def run_nose(args):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     scc.output, _ = process.communicate()
     scc.status = process.returncode
-    scc.output = _normalize_newlines(scc.output) 
+    scc.output  = _normalize_newlines(scc.output)
     scc.output = scc.output.rstrip()
     _extract_time_and_traceback()
     
 _newlines_re = re.compile(r'(\r\n|\r|\r)')
 def _normalize_newlines(string):
-    return _newlines_re.sub('\n', string)
+    return _newlines_re.sub('\n', string.decode("utf-8"))
 
 def _extract_time_and_traceback():
     scc.time = _get_time_in_output_result(scc.output)
@@ -38,7 +38,7 @@ def _extract_time_and_traceback():
 _time_re = re.compile(r'\d+\.\d+s')
 def _get_time_in_output_result(string):
     times = re.findall(_time_re, string)
-    return times[0]
+    return times[0] if(len(times) > 0) else None
 
 _traceback_re = re.compile(r'Traceback(.+)' 
                            + r'\n' + ('-' * 70),
@@ -96,8 +96,8 @@ status_tests = {
 
 @Then("^it should report (\w+) from (\w+) as (passed|failed|undefined)$")
 def check_xunit_report(scenario, feature, exp_status):
-    testcase = filter(  lambda t: t.getAttribute('classname') == 'freshen.noseplugin.' + feature and
+    testcase = list(filter(  lambda t: t.getAttribute('classname') == 'freshen.noseplugin.' + feature and
                                   t.getAttribute('name') == scenario,
-                        scc.xunit_report.getElementsByTagName('testcase'))[0]
+                        scc.xunit_report.getElementsByTagName('testcase')))[0]
 
     assert_true(status_tests[exp_status](testcase))

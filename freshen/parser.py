@@ -12,7 +12,7 @@ import textwrap
 
 try:
     from os.path import relpath
-except Exception, e:
+except Exception as e:
     from freshen.compat import relpath
 
 log = logging.getLogger('freshen')
@@ -122,7 +122,7 @@ class Step(object):
 
     def set_values(self, value_dict):
         result = copy.deepcopy(self)
-        for name, value in value_dict.iteritems():
+        for name, value in value_dict.items():
             result.match = result.match.replace("<%s>" % name, value)
         return result
 
@@ -147,12 +147,11 @@ class Table(object):
 
     def iterrows(self):
         for row in self.rows:
-            yield dict(zip(self.headings, row))
+            yield dict(list(zip(self.headings, row)))
 
 
 def grammar(fname, l, convert=True, base_line=0):
     # l = language
-
     def create_object(klass):
         def untokenize(s, loc, toks):
             result = []

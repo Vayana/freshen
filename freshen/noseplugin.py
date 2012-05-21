@@ -4,7 +4,6 @@ import sys
 import os
 import logging
 import re
-from new import instancemethod
 
 from pyparsing import ParseException
 
@@ -99,7 +98,7 @@ class FreshenNosePlugin(Plugin):
         self.language = load_language(options.language)
         self.impl_loader = StepImplLoader()
         if not self.language:
-            print >> sys.stderr, "Error: language '%s' not available" % options.language
+            print("Error: language '%s' not available" % options.language, file=sys.stderr)
             exit(1)
         if options.list_undefined:
             self.undefined_steps = []
@@ -149,14 +148,14 @@ class FreshenNosePlugin(Plugin):
         try:
             feat = load_feature(filename, self.language)
             path = os.path.dirname(filename)
-        except ParseException, e:
+        except ParseException as e:
             _, _, tb = sys.exc_info()
             yield ParseFailure(e, tb, filename)
             return
 
         try:
             self.impl_loader.load_steps_impl(step_registry, path, feat.use_step_defs)
-        except StepImplLoadException, e:
+        except StepImplLoadException as e:
             yield StepsLoadFailure(address=TestAddress(filename), *e.exc)
             return
 
@@ -230,7 +229,7 @@ class FreshenNosePlugin(Plugin):
                     plugin.undefined_steps.append((test, ec, ev, tb))
                 self._old_addError(test, err)
             result._old_addError = result.addError
-            result.addError = instancemethod(_addError, result, result.__class__)
+            result.addError = _addError.__get__(result, result.__class__)
 
     def report(self, stream):
         if self.undefined_steps:

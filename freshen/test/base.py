@@ -64,8 +64,8 @@ class FreshenTestCase(object):
         try:
             self.last_step = step
             return self.step_runner.run_step(step)
-        except (AssertionError, UndefinedStepImpl, ExceptionWrapper):
-            raise
+        except (AssertionError, UndefinedStepImpl, ExceptionWrapper) as e:
+            raise e
         except:
             raise ExceptionWrapper(sys.exc_info(), step, discard_frames)
         self.runAfterStepHooks()

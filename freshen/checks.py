@@ -15,7 +15,7 @@ def assert_looks_like(first, second, msg=None):
 
 _assert_equal = assert_equal
 def assert_equal(first, second, msg=None):
-    doit = all(isinstance(s, basestring) for s in [first, second]) and \
+    doit = all(isinstance(s, str) for s in [first, second]) and \
            any("\n" in s for s in [first, second])
     
     if not doit:

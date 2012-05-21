@@ -60,23 +60,23 @@ def print_registry(registry):
             if step not in steps[keyword][filename]:
                 steps[keyword][filename].append(step)
     for keyword in ['given', 'when', 'then']:
-        print Colors.write(keyword.upper(), Colors.HEADER)
+        print(Colors.write(keyword.upper(), Colors.HEADER))
         for filename in steps[keyword]:
-            print "  %s" % Colors.write(filename, Colors.FILE)
+            print("  %s" % Colors.write(filename, Colors.FILE))
             for step in steps[keyword][filename]:
-                print "    %s" % step.spec
+                print("    %s" % step.spec)
 
 
 def list_steps():
     if len(sys.argv) < 2 or sys.argv[1] in ["--help", "-h"]:
-        print >> sys.stderr, "Prints list of step definitions that are available to the feature files."
-        print >> sys.stderr, "Usage: %s [file or directory]" % sys.argv[0]
+        print("Prints list of step definitions that are available to the feature files.", file=sys.stderr)
+        print("Usage: %s [file or directory]" % sys.argv[0], file=sys.stderr)
         exit(1)
 
     file_or_dir = sys.argv[1]
     
     if not os.path.exists(file_or_dir):
-        print >> sys.stderr, "No such file or directory: %s" % file_or_dir
+        print("No such file or directory: %s" % file_or_dir, file=sys.stderr)
         exit(1)
     
     if os.path.isdir(file_or_dir):

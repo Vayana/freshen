@@ -1,2 +1,2 @@
-from defs import *
+from .defs import *
 

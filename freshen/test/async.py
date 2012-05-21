@@ -4,6 +4,7 @@ from freshen.test.base import FreshenTestCase
 
 from twisted.trial.unittest import TestCase
 from twisted.internet.defer import inlineCallbacks, Deferred
+import collections
 
 class TwistedTestCase(FreshenTestCase, TestCase):
     """Support asynchronous feature tests."""
@@ -57,7 +58,7 @@ class TwistedTestCase(FreshenTestCase, TestCase):
             if isinstance(result, Deferred):
                 # Collect deferred events
                 deferreds.append(result)
-            elif callable(result):
+            elif isinstance(result, collections.Callable):
                 # Collect deferred function calls
                 deferreds[-1].addCallback(result)
 

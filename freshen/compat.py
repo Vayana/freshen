@@ -23,5 +23,5 @@ def relpath(path, start=curdir):
 
     
 if __name__ == "__main__":
-    print relpath("/tmp/dir1/file", "/tmp")
-    print relpath("/tmp/dir1/file", "/usr")
+    print(relpath("/tmp/dir1/file", "/tmp"))
+    print(relpath("/tmp/dir1/file", "/usr"))

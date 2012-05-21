@@ -72,16 +72,16 @@ def run_scenario(step_registry, scenario, handler):
         called = False
         try:
             runner.run_step(step)
-        except AssertionError, e:
+        except AssertionError as e:
             handler.step_failed(step, e)
             called = True
-        except UndefinedStepImpl, e:
+        except UndefinedStepImpl as e:
             handler.step_undefined(step, e)
             called = True
-        except AmbiguousStepImpl, e:
+        except AmbiguousStepImpl as e:
             handler.step_ambiguous(step, e)
             called = True
-        except Exception, e:
+        except Exception as e:
             handler.step_exception(step, e)
             called = True
         

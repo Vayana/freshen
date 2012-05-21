@@ -60,9 +60,9 @@ class Language(object):
         (or the default language if no word is available).
         """
         if self.default_mappings is not None and key not in self.mappings:
-            return self.default_mappings[key].encode('utf').split("|")
+            return list(w.decode("utf-8") for w in self.default_mappings[key].encode('utf').split(b"|"))
         else:
-            return self.mappings[key].encode('utf').split("|")
+            return list(w.decode("utf-8") for w in self.mappings[key].encode('utf-8').split(b"|"))
 
 
 def load_feature(fname, language):
